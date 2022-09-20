@@ -1,4 +1,4 @@
-module github.com/pivotal/gp-stream-server-plugin
+module github.com/greenplum-db/gp-stream-server-plugin
 
 go 1.17
 

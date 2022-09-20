@@ -10,7 +10,7 @@ otherwise, an error occurs
 import (
 	"encoding/json"
 	"errors"
-	"github.com/pivotal/gp-stream-server-plugin/transformer"
+	"github.com/greenplum-db/gp-stream-server-plugin/transformer"
 )
 
 var UnsupportedOpError = errors.New("simple transformer error: unsupported op")
