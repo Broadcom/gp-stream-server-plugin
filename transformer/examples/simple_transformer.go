@@ -10,6 +10,7 @@ otherwise, an error occurs
 import (
 	"encoding/json"
 	"errors"
+	common "github.com/greenplum-db/gp-stream-server-plugin"
 	"github.com/greenplum-db/gp-stream-server-plugin/transformer"
 )
 
@@ -21,13 +22,27 @@ type record struct {
 	C int
 }
 
-func SimpleTransformOnInit() error {
-	return nil
+var name string
+
+func SimpleTransformOnInit(ctx common.BaseContext) error {
+	properties := ctx.GetProperties()
+	name = properties["name"]
+	simulateInitError := properties["simulate-init-error"]
+	ctx.GetLogger().Infof("plugin:%s init start...", name)
+	// do some init work...
+	if simulateInitError == "true" {
+		// simulate an error
+		ctx.GetLogger().Errorf("plugin:%s init error", name)
+		return transformer.ErrorTransformerInit
+	} else {
+		ctx.GetLogger().Infof("plugin:%s init finished", name)
+		return nil
+	}
 }
 
 func SimpleTransform(ctx transformer.TransformContext) {
 	logger := ctx.GetLogger()
-	logger.Infof("start to transform using adder.")
+	logger.Infof("start to transform using %s", name)
 
 	properties := ctx.GetProperties()
 	op := properties["op"]
@@ -55,6 +70,5 @@ func SimpleTransform(ctx transformer.TransformContext) {
 			ctx.SetTransformStatus(transformer.TransformStatusError)
 		}
 	}
-	logger.Infof("finished to transform using adder")
-	return
+	logger.Infof("finished to transform using %s", name)
 }

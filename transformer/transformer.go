@@ -2,7 +2,7 @@ package transformer
 
 import (
 	"errors"
-	"github.com/sirupsen/logrus"
+	common "github.com/greenplum-db/gp-stream-server-plugin"
 )
 
 type TransformStatus int
@@ -24,11 +24,18 @@ const (
 )
 
 type TransformContext interface {
-	GetLogger() logrus.FieldLogger
-	GetProperties() map[string]string
+	common.BaseContext
+
+	// GetInput returns data to be transformed by the transformer
 	GetInput() []byte
 
+	// SetTransformStatus sets the transform result,
+	// it should be TransformStatusAccept/TransformStatusReject/TransformStatusError
 	SetTransformStatus(TransformStatus)
+
+	// SetOutput sets the transformed data
 	SetOutput([]byte)
+
+	// SetError sets the error during transforming
 	SetError(error)
 }
