@@ -16,10 +16,11 @@ const (
 	// TransformStatusAccept means transform success
 	TransformStatusAccept = iota + 1
 
-	// TransformStatusReject means transform failed, data dropped but will not return error to gpss
+	// TransformStatusReject means transform failed, message is dropped, but will not return error to gpss,
+	// gpss will continue to process the next message
 	TransformStatusReject
 
-	// TransformStatusError means transform failed, error
+	// TransformStatusError means transform failed and return an error to gpss, the job will be stopped
 	TransformStatusError
 )
 

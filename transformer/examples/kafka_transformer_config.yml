@@ -1,0 +1,36 @@
+DATABASE: testdb
+USER: gpadmin
+PASSWORD: password
+HOST: localhost
+PORT: 15432
+VERSION: 2
+KAFKA:
+  INPUT:
+    SOURCE:
+      BROKERS: localhost:9092
+      TOPIC: test
+    TRANSFORMER:
+      PATH: /tmp/simple-transformer.so
+      ON_INIT: SimpleTransformOnInit
+      TRANSFORM: SimpleTransform
+      PROPERTIES:
+        name: my-simple-transformer
+        simulate-init-error: false
+        op: +
+        error-policy: reject
+    VALUE:
+      COLUMNS:
+        - NAME: value
+          TYPE: json
+      FORMAT: JSON
+    ERROR_LIMIT: 25
+  OUTPUT:
+    TABLE: tbl_plugin_test
+    MODE: INSERT
+    MAPPING:
+      - NAME: a
+        EXPRESSION: (value->>'A')::int
+      - NAME: b
+        EXPRESSION: (value->>'B')::int
+      - NAME: c
+        EXPRESSION: (value->>'C')::int
