@@ -6,21 +6,21 @@ GPSS 1.9.0 introduces a "kernel-plugin" mode based on [go native plugin](https:/
 
 This repository helps you implement your own GPSS plugin. It contains some common interfaces and constants used to implement a plugin, and also some simple examples.
 
-Currently the following plugin types are supported:
+Currently,the following plugin types are supported:
 
-- Transformer
+- [Transformer](./transformer)
 
 # Known issues and Limitations
 
 ## Go version
 
-The plugin should be built with same go version as greenplum stream server, we use go1.17.6 now.
+The plugin should be built with same go version as GPSS, we use go1.17.6 now.
 
 ## Dependency version
 
-If a dependency that your plugin uses is also used by the greenplum stream server, their versions should be same.
+If a dependency that your plugin uses is also used by GPSS, their versions should be same.
 
-This is the dependencies of greenplum stream server:
+This is the dependencies of GPSS:
 
 ```
 require (
