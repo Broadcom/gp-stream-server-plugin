@@ -12,7 +12,7 @@ There are two main functions to be implemented. We call them `init` function and
 
 ###  1.1 init function
 
-Init function will be invoked when the transformer plugin is first loaded. It's guaranteed to be invoked only once even if the plugin is used in multi jobs.
+Init function will be invoked when the transformer plugin is first loaded. It's guaranteed to be invoked only once even if the plugin is used in multi jobs. Init function is not mandatory, you don't need to implement it if you have nothing to initialize.
 
 Init function should have type `func(ctx common.BaseContext) error`, for example, in [simple_transformer.go](./examples/simple_transformer.go) init function is `func SimpleTransformOnInit(ctx common.BaseContext) error`.
 
@@ -78,10 +78,10 @@ We should add config to yml job config file, for example:
 
 we add a `TRANSFORMER` section, it has 4 fields:
 
-| Field      | Description                                                                                                                                          |
-|------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| PATH       | the path to plugin dynamically linked file, if the path is not existed, an error will be reported in job preparation period                          |
-| ON_INIT    | init function name                                                                                                                                   |
-| TRANSFORM  | transform function name                                                                                                                              |
-| PROPERTIES | some custom key-value properties, when `ON_INIT` func or `TRANSFORM` func is invoked, `PROPERTIES` are passed to the function together transparently |
+| Field      | Required | Description                                                                                                                                          |
+|------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| PATH       | true     | the path to plugin dynamically linked file, if the path is not existed, an error will be reported in job preparation period                          |
+| ON_INIT    | false    | init function name                                                                                                                                   |
+| TRANSFORM  | true     | transform function name                                                                                                                              |
+| PROPERTIES | false    | some custom key-value properties, when `ON_INIT` func or `TRANSFORM` func is invoked, `PROPERTIES` are passed to the function together transparently |
 
